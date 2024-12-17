@@ -84,6 +84,9 @@ public class ASN1Decoder {
             guard let length = lengthBytes.unsignedIntValue else {
                 throw ASN1Error.unsupported("Length data invalid(/too long): [0x\(lengthBytes.hexString())]")
             }
+            if length > Int.max {
+                throw ASN1Error.unsupported("Length data invalid(/too long): [0x\(lengthBytes.hexString())]")
+            }
             return Int(length)
         } else {
             // short
@@ -145,6 +148,9 @@ public class ASN1Decoder {
             if tag & ASN1Tag.tagged == ASN1Tag.tagged {
                 return .taggedTag(tagNo)
             }
+        }
+        if tagNo > UInt8.max {
+            throw ASN1Error.unsupported("Tag value out of range: [0x\(String(tagNo, radix: 16)))]")
         }
         guard let tag = ASN1Tag(rawValue: UInt8(tagNo)) else {
             throw ASN1Error.malformedEncoding("Tag value is invalid: [0x\(String(tagNo, radix: 16))]")
