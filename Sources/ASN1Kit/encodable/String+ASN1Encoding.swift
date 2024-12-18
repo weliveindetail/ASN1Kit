@@ -45,7 +45,7 @@ extension String: ASN1CodableType {
         guard let encoding = asn1.tag.stringEncoding,
               let data = asn1.data.primitive,
               let value = String(data: data, encoding: encoding) else {
-            throw ASN1Error.malformedEncoding("Could not decode ASN.1 String [\(String(describing: asn1))]")
+            throw ASN1Error.malformedEncoding("Could not decode ASN.1 String")
         }
         self.init(value)
     }
