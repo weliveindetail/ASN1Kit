@@ -38,6 +38,10 @@ public class GeneralizedTimeDateFormatter {
         decodingFormatter.dateFormat = dateFormat
         decodingFormatter.timeZone = generalizedTime.timeZone
 
+        if dateFormat.count > generalizedTime.count {
+            return nil
+        }
+
         guard let date = decodingFormatter.date(from: generalizedTime[0 ..< dateFormat.count]) else {
             return nil
         }
